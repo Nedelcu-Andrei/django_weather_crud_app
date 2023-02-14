@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.1/flatly/bootstrap.min.css" integrity="sha512-NnOXwTfcNBeRenMzrDACGwxbThjRcI5H8jvM+VDKKkXA6wkAb2c0t1YgDXWmW2TNX1CUSe6Ma6HXYG2J1rBGDQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />"
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <script src="{% static 'javascript/script.js' %}"></script>
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark heightFix">
+    <div class="buttons-left">
+      {% if not user.is_authenticated %}
+      <button class="register-button button-styled"><a href="{% url 'register' %}">Register</a></button>
+      <button class="login_button button-styled"><a href="{% url 'login' %}">Login</a></button>
+      {% endif %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="buttons-right">
+      <button class="user-display button-styled">{{user}}</button>
+      <button class="list-locations button-styled"><a href="{% url 'list_locations' %}">List Locations</a></button>
+      <button class="logout button-styled"><a href="http://127.0.0.1:8000/logout/">Logout</a></button>
+    </div>
+    {% endif %}
+  </div>
+
+  <br /><br /> <br>
+  <div id="jumbotron" class="jumbotron" style="text-align: center; margin-top:-50px">
+    <h1 class="display-5">Weather Desktop App </h1>
+
+    <img src="{% static 'images/weather_main.png' %}" alt="Image" style="width:140px; margin-bottom:-50px; ">
+  </div>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <form method="post" class="col-md">
+      {% csrf_token %}
+      <div class=" input-group">
+
+      <input type="text" class="form-control" name="city" placeholder="Insert city here ...">
+      <div class="input-group-btn">
+        <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+      </div>
+      </form>
+  </nav>
+  <br> <br>
+  <div class="row">
+    {% if city_name and temperature and feels_like and humidity and wind_speed %}
+    <div class="col d-flex justify-content-center">
+      <div class=" card text-black bg-light mb-6">
+      <div class=" card-body">
+        <h4><span class="badge badge-primary">City :</span> {{city_name}}</h4>
+        <h4><span class="badge badge-primary">Temperature :</span> {{temperature}}</h4>
+        <h4><span class="badge badge-primary">Feels like :</span> {{feels_like}} </h4>
+        <h4><span class="badge badge-primary">Humidity : </span> {{humidity}}</h4>
+        <h4><span class="badge badge-primary">Wind speed : </span> {{wind_speed}}  <img src="https://uxwing.com/wp-content/themes/uxwing/download/weather/cloud-wind-icon.png" alt="Alt" style="width:50px"></h4>
+        <h4><span class="badge badge-primary">Wind direction : </span> {{wind_direction}}</h4>
+        <h4><span class="badge badge-primary">Clouds coverage : </span> {{cloud}}</h4>
+        <h4><span class="badge badge-primary">Description : </span> {{description}}</h4>
+        {% if user.is_authenticated %}
+          <form action="{% url 'save_location' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="city" value="{{ city_name }}">
+            <input type="hidden" name="temperature" value="{{ temperature }}">
+            <input type="hidden" name="feels_like" value="{{ feels_like }}">
+            <input type="hidden" name="humidity" value="{{ humidity }}">
+            <input type="hidden" name="wind_speed" value="{{ wind_speed }}">
+            <input type="hidden" name="wind_direction" value="{{ wind_direction }}">
+            <input type="hidden" name="cloud" value="{{ cloud }}">
+            <input type="hidden" name="description" value="{{ description }}">
+            <button type="submit" class="btn btn-primary">Save location</button>
+          </form>
+        {% endif %}
+      </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</body>
+<div class="row"></div>
+<footer class="footer">
+  <p style="width: 500px; margin: 0 auto; text-align: center;">All rights reserved®</p>
+  <a class="right-side-footer" href="https://github.com/Nedelcu-Andrei">Andrei Mircea Nedelcu's GitHub</a>
+  <a class="left-side-footer" href="https://rapidapi.com/weatherapi/api/weatherapi-com">Get your free API key</a>
+</footer>
+
+
+</html>

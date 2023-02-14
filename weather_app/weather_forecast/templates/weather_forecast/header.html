@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.1/flatly/bootstrap.min.css" integrity="sha512-NnOXwTfcNBeRenMzrDACGwxbThjRcI5H8jvM+VDKKkXA6wkAb2c0t1YgDXWmW2TNX1CUSe6Ma6HXYG2J1rBGDQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />"
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <script src="{% static 'javascript/script.js' %}"></script>
+  </head>
+  <body>
+    <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark heightFix">
+      <div class="buttons-left">
+        <button class="dashboard-link button-styled"><a href="http://127.0.0.1:8000/dashboard/">Dashboard</a></button>
+        {% if not user.is_authenticated %}
+        <button class="register-button button-styled"><a href="{% url 'register' %}">Register</a></button>
+        <button class="login_button button-styled"><a href="{% url 'login' %}">Login</a></button>
+        {% endif %}
+      </div>
+      {% if user.is_authenticated %}
+      <div class="buttons-right">
+        <button class="user-display button-styled">{{user}}</button>
+        <button class="logout button-styled"><a href="http://127.0.0.1:8000/logout/">Logout</a></button>
+      </div>
+      {% endif %}
+    </div>
+
+    <br /><br /> <br>
+    <div id="jumbotron" class="jumbotron" style="text-align: center; margin-top:-50px">
+      <h1 class="display-5">Weather Desktop App </h1>
+      <img src="{% static 'images/weather_main.png' %}" class="image" style="width:140px; margin-bottom:-50px; ">
+    </div>
+    <div class="wrapper">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+  <footer class="footer">
+    <p style="width: 500px; margin: 0 auto; text-align: center;">All rights reserved®</p>
+    <a class="right-side-footer" href="https://github.com/Nedelcu-Andrei">Andrei Mircea Nedelcu's GitHub</a>
+    <a class="left-side-footer" href="https://rapidapi.com/weatherapi/api/weatherapi-com">Get your free API key</a>
+  </footer>
+</html>
+

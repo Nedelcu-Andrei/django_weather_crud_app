@@ -1,0 +1,27 @@
+{% extends "weather_forecast/header.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container py-5">
+	<h1>Login</h1>
+	<form method="POST">
+		{% csrf_token %}
+		{{form|crispy}}
+		{% if messages %}
+		{% for message in messages %}
+		{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+		<div class="alert alert-success" role="alert">
+			{{ message }}
+		</div>
+		{% endif %}
+		{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+		<div class="alert alert-danger" role="alert">
+			{{ message }}
+		</div>
+		{% endif %}
+		{% endfor %}
+		{% endif %}
+		<button class="btn btn-primary" type="submit">Login</button>
+	</form>
+	<p class="text-center">If don't have an account, <a href="/register">register</a> instead.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "weather_forecast/header.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/widget.css' %}">
+<div class="wrapper">
+    <div class="card-container card-container-center">
+        <div class="card text-black bg-light card-width-display">
+            <div class="card-body">
+                {% if city_name %}
+                <h4><span class="badge badge-primary">Id :</span> {{ id }}</h4>
+                <h4><span class="badge badge-primary">City :</span> {{ city_name }}</h4>
+                <h4><span class="badge badge-primary">Temperature :</span> {{ temperature }}</h4>
+                <h4><span class="badge badge-primary">Feels like :</span> {{ feels_like }}</h4>
+                <h4><span class="badge badge-primary">Humidity :</span> {{ humidity }}</h4>
+                <h4><span class="badge badge-primary">Wind speed :</span> {{ wind_speed }}</h4>
+                <h4><span class="badge badge-primary">Wind direction :</span> {{ wind_direction }}</h4>
+                <h4><span class="badge badge-primary">Clouds :</span> {{ cloud }}</h4>
+                <h4><span class="badge badge-primary">Description :</span> {{ description }}</h4>
+                <h4><span class="badge badge-primary">User description :</span> {{ user_description }}</h4>
+            </div>
+            <div class="widget-container">
+                <div id="weather_wrapper">
+                  <div class="weatherCard">
+                    <div class="currentTemp">
+                      <span class="temp">{{ widget_temperature }}&deg;</span>
+                      <span class="location">{{ city_name }}</span>
+                    </div>
+                    <div class="currentWeather">
+                        {% if description == "Heavy snow" or description == "Moderate snow" %}
+                        <span class="conditions">&#xf01b;</span>
+                        {% elif description == "Sunny" %}
+                        <span class="conditions">&#xf00d;</span>
+                        {% elif description == "Partly cloudy" %}
+                        <span class="conditions">&#xf002;</span>
+                        {% elif description == "Overcast" %}
+                        <span class="conditions">&#xf00c;</span>
+                        {% elif description == "Clear" %}
+                        <span class="conditions">&#xf02e;</span>
+                        {% elif description == "Heavy rain" or description == "Patchy light rain" %}
+                        <span class="conditions">&#xf019;</span>
+                        {% endif %}
+                      <div class="info">
+                        <span class="rain">{{ widget_rain }} MM</span>
+                        <span class="wind">{{ wind_speed }} MPH</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
